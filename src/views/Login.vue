@@ -1,9 +1,7 @@
-<!-- Login.vue -->
-
 <template>
   <div>
     <h1>Login</h1>
-    <form @submit.prevent="login">
+    <form @submit.prevent="submitForm">
       <label for="email">Email:</label>
       <input type="email" id="email" v-model="email" required />
       <label for="password">Password:</label>
@@ -24,9 +22,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["login"]),
-    async login() {
-      await this.login({ email: this.email, password: this.password });
+    ...mapActions(["loginUser"]),
+    async submitForm() {
+      await this.loginUser({ email: this.email, password: this.password });
       this.$router.push("/products");
     },
   },

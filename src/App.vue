@@ -1,10 +1,30 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <Navbar />
+  <router-view />
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+import Navbar from "./components/Navbar.vue";
+
+export default {
+  name: "App",
+  components: {
+    Navbar
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated"]),
+  },
+  watch: {
+    isAuthenticated(newValue) {
+      // Redirect to login page if user is not authenticated
+      if (!newValue) {
+        this.$router.push({ name: "Login" });
+      }
+    },
+  },
+};
+</script>
 
 <style>
 #app {

@@ -27,9 +27,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["signup"]),
+    ...mapActions(["registerUser"]),
     async signup() {
-      await this.signup({
+      await this.registerUser({
         name: this.name,
         email: this.email,
         password: this.password,

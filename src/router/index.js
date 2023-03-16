@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
 import Products from "../views/Products.vue";
 import store from "../store/index.js";
+import NotFound from "@/views/NotFound.vue";
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
     name: "Products",
     component: Products,
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 
