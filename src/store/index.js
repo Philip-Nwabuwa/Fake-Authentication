@@ -50,7 +50,7 @@ const store = createStore({
     },
     logout({ commit }) {
       // Clear the token and user information from the store and local storage
-      commit("clearAuth");
+      commit("clearAuth", "setUser");
     },
   },
 

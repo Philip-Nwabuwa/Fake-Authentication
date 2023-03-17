@@ -1,23 +1,26 @@
 <template>
   <div>
     <h1>Protected Products</h1>
-    <!-- <p v-if="user">Welcome {{ name }}!</p> -->
-    <div v-if="products.length">
-      <ul>
-        <li v-for="product in products" :key="product.id">
-          {{ product.name }}
-        </li>
-      </ul>
-    </div>
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="error">Error: {{ error }}</div>
     <div v-else>
-      <p>No products available.</p>
+      <div v-if="products.length">
+        <ul>
+          <li v-for="product in products" :key="product.id">
+            {{ product.title }}
+          </li>
+        </ul>
+      </div>
+      <div v-else>
+        <p>No products available.</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-// import { useAuth } from "../composable/useAuth.js";
+import axios from "axios";
 
 export default {
   name: "Product",
@@ -31,12 +34,25 @@ export default {
   },
   data() {
     return {
-      products: [
-        { id: 1, name: "Product 1" },
-        { id: 2, name: "Product 2" },
-        { id: 3, name: "Product 3" },
-      ],
+      products: [],
+      loading: false,
+      error: null,
     };
+  },
+  created() {
+    this.loading = true;
+    axios
+      .get("https://dummyjson.com/products")
+      .then((response) => {
+        this.products = response.data.products;
+        console.log(this.products);
+      })
+      .catch((error) => {
+        this.error = error.message;
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   },
   mounted() {
     if (!this.isAuthenticated) {
