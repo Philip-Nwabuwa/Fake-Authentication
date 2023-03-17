@@ -4,15 +4,27 @@
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error }}</div>
     <div v-else>
-      <div v-if="products.length">
+      <div>
+        <label for="category-filter">Filter by category:</label>
+        <select id="category-filter" v-model="selectedCategory">
+          <option value="">All categories</option>
+          <option
+            v-for="category in categories"
+            :key="category"
+            :value="category"
+          >
+            {{ category }}
+          </option>
+        </select>
+      </div>
+      <div v-if="filteredProducts.length">
         <ul>
           <li v-for="product in currentPageProducts" :key="product.id">
-            {{ product.title }} {{ product.price }}
+            {{ product.category }} - {{ product.title }} {{ product.price }}
           </li>
         </ul>
         <div>
           <span>Page {{ currentPage }} of {{ totalPages }}</span>
-
           <div>
             <button :disabled="currentPage === 1" @click="currentPage--">
               Prev
@@ -26,7 +38,7 @@
               {{ page }}
             </button>
             <button
-              :disabled="currentPage * perPage >= products.length"
+              :disabled="currentPage * perPage >= filteredProducts.length"
               @click="currentPage++"
             >
               Next
@@ -53,10 +65,10 @@ export default {
     currentPageProducts() {
       const start = (this.currentPage - 1) * this.perPage;
       const end = start + this.perPage;
-      return this.products.slice(start, end);
+      return this.filteredProducts.slice(start, end);
     },
     totalPages() {
-      return Math.ceil(this.products.length / this.perPage);
+      return Math.ceil(this.filteredProducts.length / this.perPage);
     },
     pages() {
       const pages = [];
@@ -64,6 +76,20 @@ export default {
         pages.push(i);
       }
       return pages;
+    },
+    categories() {
+      const categories = new Set();
+      this.products.forEach((product) => categories.add(product.category));
+      return Array.from(categories).sort();
+    },
+    filteredProducts() {
+      if (this.selectedCategory === "") {
+        return this.products;
+      } else {
+        return this.products.filter(
+          (product) => product.category === this.selectedCategory
+        );
+      }
     },
   },
   data() {
@@ -73,6 +99,7 @@ export default {
       error: null,
       perPage: 10,
       currentPage: 1,
+      selectedCategory: "",
     };
   },
   created() {
