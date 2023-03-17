@@ -6,6 +6,7 @@ import Signup from "../views/Signup.vue";
 import Products from "../views/Products.vue";
 import store from "../store/index.js";
 import NotFound from "@/views/NotFound.vue";
+import ProductDetail from "@/views/ProductDetail.vue";
 
 const routes = [
   {
@@ -29,6 +30,13 @@ const routes = [
     path: "/products",
     name: "Products",
     component: Products,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/products/:id",
+    name: "ProductDetail",
+    component: ProductDetail,
+    props: true,
     meta: { requiresAuth: true },
   },
   {

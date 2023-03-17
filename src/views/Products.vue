@@ -20,7 +20,11 @@
       <div v-if="filteredProducts.length">
         <ul>
           <li v-for="product in currentPageProducts" :key="product.id">
-            {{ product.category }} - {{ product.title }} {{ product.price }}
+            <router-link
+              :to="{ name: 'ProductDetail', params: { id: product.id } }"
+            >
+              {{ product.category }} - {{ product.title }} {{ product.price }}
+            </router-link>
           </li>
         </ul>
         <div>
@@ -123,7 +127,6 @@ export default {
   },
   mounted() {
     if (!this.isAuthenticated) {
-      // Redirect to login page if user is not authenticated
       this.$router.push({ name: "Login" });
     }
   },
