@@ -31,13 +31,14 @@ const routes = [
     name: "Products",
     component: Products,
     meta: { requiresAuth: true },
-  },
-  {
-    path: "/products/:id",
-    name: "ProductDetail",
-    component: ProductDetail,
-    props: true,
-    meta: { requiresAuth: true },
+    children: [
+      {
+        path: ":id",
+        name: "ProductDetail",
+        component: ProductDetail,
+        props: true,
+      },
+    ],
   },
   {
     path: "/:catchAll(.*)",
