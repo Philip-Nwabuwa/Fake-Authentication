@@ -1,4 +1,6 @@
-# fake-auth
+# Fake-Authentication
+
+## Hosted Link https://fake-auth-24.web.app
 
 ## Project setup
 ```
@@ -22,3 +24,5 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## By Philip Nwabuwa for Altschool Africa 
